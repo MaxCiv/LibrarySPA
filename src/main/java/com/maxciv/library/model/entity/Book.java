@@ -6,12 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * @author maxim.oleynik
@@ -22,29 +22,19 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Book {
+public class Book implements Serializable {
 
     @Id
     @GeneratedValue
     private int id;
-
-    @Column
     private String title;
-
-    @Column
     private String author;
-
-    @Column
     private String publisher;
-
-    @Column
     private String publishYear;
 
-    @Column
     @Enumerated
     private Status status;
 
-    @Column
     @Enumerated
     private Condition bookCondition;
 

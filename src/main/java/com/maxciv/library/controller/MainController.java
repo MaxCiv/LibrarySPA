@@ -16,6 +16,11 @@ public class MainController {
 
     @GetMapping("/")
     public String getHome(@AuthenticationPrincipal User user) {
-        return "home";
+        return "redirect:/app";
+    }
+
+    @GetMapping("/app")
+    public String getApp() {
+        return "index";
     }
 }

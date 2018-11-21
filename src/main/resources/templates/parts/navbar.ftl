@@ -10,28 +10,27 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
 
-            <#if isLibrarian>
-                <li class="nav-item">
-                    <a class="nav-link" href="/librarian/tableUsers">Users</a>
-                </li>
-            </#if>
+            <#--<#if isLibrarian>-->
+                <#--<li class="nav-item">-->
+                    <#--<a class="nav-link" href="/librarian/tableUsers">Users</a>-->
+                <#--</li>-->
+            <#--</#if>-->
 
-            <#if isLibrarian>
-                <li class="nav-item">
-                    <a class="nav-link" href="/registration">Add new user</a>
-                </li>
-            </#if>
+            <#--<#if isLibrarian>-->
+                <#--<li class="nav-item">-->
+                    <#--<a class="nav-link" href="/registration">Add new user</a>-->
+                <#--</li>-->
+            <#--</#if>-->
 
         </ul>
 
-        <div class="navbar-text px-3" title="${userFullName}">
-            ${userName}
+        <div class="navbar-text px-3" title="${userName}">
+            ${userFullName}
         </div>
 
         <#if userAuth??>
             <form class="form-inline my-2 my-lg-0" action="/logout" method="post">
                 <button class="btn btn-outline-primary my-2 my-sm-0 text-white" type="submit">Sign out</button>
-                <input type="hidden" name="_csrf" value="${_csrf.token}">
             </form>
         <#else>
             <form class="form-inline my-2 my-lg-0" action="/login" method="get">

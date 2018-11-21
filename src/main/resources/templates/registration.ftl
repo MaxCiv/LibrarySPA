@@ -4,7 +4,6 @@
 <@page.head "styleLogin.css">
 <div class="text-center mx-auto">
     <form class="form-signin" action="/registration" method="post">
-        <input type="hidden" name="_csrf" value="${_csrf.token}">
         <h1 class="h3 mb-3 font-weight-normal">Registration</h1>
 
         <label for="inputName" class="sr-only">Name</label>

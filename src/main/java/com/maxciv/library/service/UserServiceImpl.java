@@ -34,19 +34,19 @@ public class UserServiceImpl implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
-    public void addUser(User user, String role) {
+    public User addUser(User user, String role) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setActive(true);
         user.setRoles(new HashSet<>(Arrays.asList(Role.COMMON_USER, Role.valueOfString(role))));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
-    public void updateUser(User user, String name, String username, String password, String role) {
+    public User updateUser(User user, String name, String username, String password, String role) {
         user.setName(name);
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
         user.setActive(true);
         user.setRoles(new HashSet<>(Arrays.asList(Role.COMMON_USER, Role.valueOfString(role))));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 }
