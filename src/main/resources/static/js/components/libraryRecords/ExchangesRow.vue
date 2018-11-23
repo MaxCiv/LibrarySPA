@@ -6,8 +6,8 @@
         <td>{{exchange.owner.id}}</td>
         <td>{{exchange.owner.username}}</td>
         <td>{{exchange.openExchangeDate}}</td>
-        <td>{{exchange.reader.id}}</td>
-        <td>{{exchange.reader.username}}</td>
+        <td>{{exchange.reader ? exchange.reader.id : ''}}</td>
+        <td>{{exchange.reader ? exchange.reader.username : ''}}</td>
         <td>{{exchange.startDate}}</td>
         <td>{{exchange.endDate}}</td>
         <td></td>

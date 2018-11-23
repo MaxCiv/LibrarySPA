@@ -1,6 +1,6 @@
 package com.maxciv.library.config;
 
-import com.maxciv.library.service.UserServiceImpl;
+import com.maxciv.library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,7 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserServiceImpl userServiceImpl;
+    private UserService userService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -46,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userServiceImpl)
+        auth.userDetailsService(userService)
                 .passwordEncoder(passwordEncoder);
     }
 }

@@ -7,14 +7,18 @@
         <td>{{book.publishYear}}</td>
         <td>{{book.status}}</td>
         <td>{{book.bookCondition}}</td>
-        <td></td>
+        <td>
+            <button v-show="book.bookCondition === 'NOT_AVAILABLE' && book.status === 'ORDER'" type="button"
+                    class="btn btn-outline-warning btn-sm text-dark" @click="orderBook(book)">Order
+            </button>
+        </td>
     </tr>
 </template>
 
 
 <script>
     export default {
-        props: ['book']
+        props: ['book', 'orderBook']
     }
 </script>
 

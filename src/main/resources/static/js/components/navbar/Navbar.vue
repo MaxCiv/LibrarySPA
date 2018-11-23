@@ -30,6 +30,10 @@
                         <a class="nav-link" href="#">Users</a>
                     </li>
 
+                    <li class="nav-item" :class="{active : frontendData.currentPage === PagesEnum.addBook}" @click="goTo(PagesEnum.addBook)">
+                        <a class="nav-link" href="#">Add new book</a>
+                    </li>
+
                     <li class="nav-item" :class="{active : frontendData.currentPage === PagesEnum.addNewUser}" @click="goTo(PagesEnum.addNewUser)">
                         <a class="nav-link" href="#">Add new user</a>
                     </li>

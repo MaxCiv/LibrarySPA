@@ -50,4 +50,9 @@ public class BookRecordExchange implements Serializable {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
+
+    public BookRecordExchange(Book book, User owner) {
+        this.book = book;
+        this.owner = owner;
+    }
 }

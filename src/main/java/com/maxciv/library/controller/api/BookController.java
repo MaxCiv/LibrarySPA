@@ -1,9 +1,10 @@
-package com.maxciv.library.controller;
+package com.maxciv.library.controller.api;
 
 import com.maxciv.library.model.entity.Book;
 import com.maxciv.library.model.repository.BookRepository;
+import com.maxciv.library.service.googlebooks.GoogleBook;
+import com.maxciv.library.service.googlebooks.GoogleBooksService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -24,10 +26,11 @@ import java.util.List;
 public class BookController {
 
     private BookRepository bookRepository;
+    private GoogleBooksService googleBooksService;
 
-    @Autowired
-    public BookController(BookRepository bookRepository) {
+    public BookController(BookRepository bookRepository, GoogleBooksService googleBooksService) {
         this.bookRepository = bookRepository;
+        this.googleBooksService = googleBooksService;
     }
 
     @GetMapping
@@ -52,7 +55,17 @@ public class BookController {
     }
 
     @DeleteMapping("{id}")
-    public void update(@PathVariable("id") Book book) {
+    public void delete(@PathVariable("id") Book book) {
         bookRepository.delete(book);
+    }
+
+    @GetMapping("google/title")
+    public List<GoogleBook> getGoogleBooksByTitle(@RequestParam String title) {
+        return googleBooksService.getBooksByTitle(title);
+    }
+
+    @GetMapping("google/author")
+    public List<GoogleBook> getGoogleBooksByAuthor(@RequestParam String author) {
+        return googleBooksService.getBooksByAuthor(author);
     }
 }

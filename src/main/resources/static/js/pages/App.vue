@@ -3,7 +3,7 @@
         <navbar :frontendData="frontendData" :PagesEnum="PagesEnum"></navbar>
 
         <template v-if="frontendData.currentPage === PagesEnum.books">
-            <book-list :books="books"/>
+            <book-list :books="books" :updateAll="updateAll"/>
         </template>
 
         <template v-if="frontendData.currentPage === PagesEnum.borrowings">
@@ -16,6 +16,10 @@
 
         <template v-if="frontendData.currentPage === PagesEnum.orderings">
             <orderings-list :orderings="orderings" :getAllOrderings="getAllOrderings"/>
+        </template>
+
+        <template v-if="frontendData.currentPage === PagesEnum.addBook">
+            <book-add-form :updateAll="updateAll" :frontendData="frontendData" :PagesEnum="PagesEnum"/>
         </template>
 
         <template v-if="frontendData.currentPage === PagesEnum.users">
@@ -37,9 +41,11 @@
     import BorrowingsList from "../components/libraryRecords/BorrowingsList.vue";
     import OrderingsList from "../components/libraryRecords/OrderingsList.vue";
     import ExchangesList from "../components/libraryRecords/ExchangesList.vue";
+    import BookAddForm from "../components/books/BookAddForm.vue";
 
     export default {
         components: {
+            BookAddForm,
             ExchangesList,
             OrderingsList,
             BorrowingsList,
@@ -48,6 +54,7 @@
             BookList,
             Navbar
         },
+
         data() {
             return {
                 frontendData: null,
@@ -56,9 +63,13 @@
                 exchanges: [],
                 orderings: [],
                 users: [],
-                PagesEnum: ({"books": 1, "users": 2, "addNewUser": 3, "borrowings": 4, "exchanges": 5, "orderings": 6})
+                PagesEnum: ({
+                    "books": 1, "users": 2, "addNewUser": 3, "borrowings": 4, "exchanges": 5, "orderings": 6,
+                    "addBook": 7
+                })
             }
         },
+        
         created() {
             this.getFrontendData();
             this.getAllBooks();
@@ -67,6 +78,7 @@
             this.getAllExchanges();
             this.getAllOrderings();
         },
+
         methods: {
             getFrontendData() {
                 return this.$resource('/api/user/current-data').get().then(result => {
@@ -110,6 +122,13 @@
                         this.orderings = data
                     })
                 })
+            },
+            updateAll() {
+                this.getAllBooks();
+                this.getAllUsers();
+                this.getAllBorrowings();
+                this.getAllExchanges();
+                this.getAllOrderings();
             }
         }
     }

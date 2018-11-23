@@ -1,10 +1,9 @@
-package com.maxciv.library.controller;
+package com.maxciv.library.controller.api;
 
 import com.maxciv.library.model.entity.User;
 import com.maxciv.library.model.exception.LibraryAppException;
 import com.maxciv.library.model.repository.UserRepository;
-import com.maxciv.library.service.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.maxciv.library.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,27 +25,13 @@ import java.util.Map;
 @RequestMapping("api/user")
 public class UserController {
 
-
-    @GetMapping("current-data")
-    public Map<String, Object> findAll(@AuthenticationPrincipal User user) {
-        Map<String, Object> frontendData = new HashMap<>();
-        frontendData.put("currentUser", user);
-        frontendData.put("currentPage", 1);
-
-        return frontendData;
-    }
-
-    private final UserServiceImpl userService;
+    private final UserService userService;
     private final UserRepository userRepository;
 
-    @Autowired
-    public UserController(UserServiceImpl userService, UserRepository userRepository) {
+    public UserController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
     }
-
-    @Autowired
-
 
     @GetMapping
     public List<User> findAll() {
@@ -82,5 +67,14 @@ public class UserController {
         }
 
         return userService.updateUser(user, name, username, password, role);
+    }
+
+    @GetMapping("current-data")
+    public Map<String, Object> getCurrent(@AuthenticationPrincipal User user) {
+        Map<String, Object> frontendData = new HashMap<>();
+        frontendData.put("currentUser", user);
+        frontendData.put("currentPage", 1);
+
+        return frontendData;
     }
 }
