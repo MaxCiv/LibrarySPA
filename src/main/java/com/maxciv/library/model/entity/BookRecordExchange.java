@@ -55,4 +55,10 @@ public class BookRecordExchange implements Serializable {
         this.book = book;
         this.owner = owner;
     }
+
+    public BookRecordExchange(Book book, User owner, Date openExchangeDate) {
+        this.book = book;
+        this.owner = owner;
+        this.openExchangeDate = openExchangeDate;
+    }
 }

@@ -3,19 +3,22 @@
         <navbar :frontendData="frontendData" :PagesEnum="PagesEnum"></navbar>
 
         <template v-if="frontendData.currentPage === PagesEnum.books">
-            <book-list :books="books" :updateAll="updateAll"/>
+            <book-list :books="books" :updateAll="updateAll" :frontendData="frontendData"
+                       :borrowingsOfReader="borrowingsOfReader"/>
         </template>
 
         <template v-if="frontendData.currentPage === PagesEnum.borrowings">
-            <borrowings-list :borrowings="borrowings" :getAllBorrowings="getAllBorrowings"/>
+            <borrowings-list :borrowings="frontendData.currentUser.librarian ? borrowings : borrowingsOfReader"
+                             :updateAll="updateAll" :frontendData="frontendData"/>
         </template>
 
         <template v-if="frontendData.currentPage === PagesEnum.exchanges">
-            <exchanges-list :exchanges="exchanges" :getAllExchanges="getAllExchanges"/>
+            <exchanges-list :exchanges="exchanges" :updateAll="updateAll" :frontendData="frontendData"/>
         </template>
 
         <template v-if="frontendData.currentPage === PagesEnum.orderings">
-            <orderings-list :orderings="orderings" :getAllOrderings="getAllOrderings"/>
+            <orderings-list :orderings="frontendData.currentUser.librarian ? orderings : ordersOfSupplier"
+                            :updateAll="updateAll" :frontendData="frontendData"/>
         </template>
 
         <template v-if="frontendData.currentPage === PagesEnum.addBook">
@@ -57,7 +60,10 @@
 
         data() {
             return {
-                frontendData: null,
+                frontendData: {
+                    currentUser: {},
+                    currentPage: 1,
+                },
                 books: [],
                 borrowings: [],
                 exchanges: [],
@@ -69,7 +75,16 @@
                 })
             }
         },
-        
+
+        computed: {
+            borrowingsOfReader() {
+                return this.borrowings.filter(value => value.reader.id === this.frontendData.currentUser.id)
+            },
+            ordersOfSupplier() {
+                return this.orderings.filter(value => value.supplier.id === this.frontendData.currentUser.id)
+            },
+        },
+
         created() {
             this.getFrontendData();
             this.getAllBooks();
@@ -91,7 +106,7 @@
                 return this.$resource('/api/book').get().then(result => {
                     result.json().then(data => {
                         this.books = data;
-                        this.frontendData.currentPage = this.PagesEnum.books
+                        // this.frontendData.currentPage = this.PagesEnum.books
                     })
                 })
             },

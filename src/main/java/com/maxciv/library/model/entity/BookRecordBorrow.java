@@ -43,4 +43,9 @@ public class BookRecordBorrow implements Serializable {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
+
+    public BookRecordBorrow(Book book, User reader) {
+        this.book = book;
+        this.reader = reader;
+    }
 }

@@ -8,8 +8,12 @@
         <td>{{book.status}}</td>
         <td>{{book.bookCondition}}</td>
         <td>
-            <button v-show="book.bookCondition === 'NOT_AVAILABLE' && book.status === 'ORDER'" type="button"
+            <template v-if="message">{{message}}</template>
+            <button v-if="frontendData.currentUser.librarian && book.bookCondition === 'NOT_AVAILABLE' && book.status === 'ORDER'" type="button"
                     class="btn btn-outline-warning btn-sm text-dark" @click="orderBook(book)">Order
+            </button>
+            <button v-if="canBorrow && frontendData.currentUser.reader && book.bookCondition === 'IN_LIBRARY' && book.status === 'LIBRARY'" type="button"
+                    class="btn btn-outline-success btn-sm" @click="onBorrow">Borrow
             </button>
         </td>
     </tr>
@@ -18,7 +22,31 @@
 
 <script>
     export default {
-        props: ['book', 'orderBook']
+        props: ['book', 'orderBook', 'frontendData', 'borrowingsOfReader', 'updateAll'],
+        data() {
+            return {
+                message: ''
+            }
+        },
+        computed: {
+            canBorrow() {
+                return !this.$props.borrowingsOfReader.some(value => value.book.id === this.$props.book.id)
+            }
+        },
+        methods: {
+            onBorrow() {
+                this.$resource('/api/reader/borrowBook').save({
+                        bookId: this.$props.book.id
+                    }, {}
+                ).then(result => {
+                    this.$props.updateAll();
+                }, result => {
+                    result.json().then(response => {
+                        this.message = response.error + ': ' + response.message;
+                    })
+                })
+            },
+        }
     }
 </script>
 

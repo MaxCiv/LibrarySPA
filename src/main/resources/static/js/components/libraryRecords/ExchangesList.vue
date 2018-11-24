@@ -17,7 +17,8 @@
             </tr>
             </thead>
             <tbody>
-            <exchanges-row v-for="exchange in exchanges" :key="exchange.id" :exchange="exchange"/>
+            <exchanges-row v-for="exchange in exchanges" :key="exchange.id" :exchange="exchange" :updateAll="updateAll"
+                           :frontendData="frontendData"/>
             </tbody>
         </table>
     </div>
@@ -28,7 +29,7 @@
     import ExchangesRow from "./ExchangesRow.vue";
 
     export default {
-        props: ['exchanges', 'getAllExchanges'],
+        props: ['exchanges', 'updateAll', 'frontendData'],
         components: {
             ExchangesRow,
         },

@@ -36,7 +36,8 @@
             </tr>
             </thead>
             <tbody>
-            <book-row v-for="book in books" :key="book.id" :book="book" :orderBook="orderBook"/>
+            <book-row v-for="book in books" :key="book.id" :book="book" :orderBook="orderBook" :updateAll="updateAll"
+                      :frontendData="frontendData" :borrowingsOfReader="borrowingsOfReader"/>
             </tbody>
         </table>
     </div>
@@ -47,7 +48,7 @@
     import BookRow from 'components/books/BookRow.vue'
 
     export default {
-        props: ['books', 'updateAll'],
+        props: ['books', 'updateAll', 'frontendData', 'borrowingsOfReader'],
         components: {
             BookRow
         },
@@ -66,8 +67,8 @@
             },
             onSubmit() {
                 this.$resource('/api/librarian/orderBook').update({
-                    book: this.bookForOrder.id,
-                    supplierId: this.supplierId,
+                        bookId: this.bookForOrder.id,
+                        supplierId: this.supplierId,
                     }, {}
                 ).then(result => {
                     this.$props.updateAll();

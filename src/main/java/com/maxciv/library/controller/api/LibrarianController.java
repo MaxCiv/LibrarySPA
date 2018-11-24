@@ -1,13 +1,12 @@
 package com.maxciv.library.controller.api;
 
 import com.maxciv.library.model.entity.Book;
+import com.maxciv.library.model.entity.BookRecordBorrow;
+import com.maxciv.library.model.entity.BookRecordExchange;
 import com.maxciv.library.model.entity.BookRecordOrder;
 import com.maxciv.library.model.entity.User;
 import com.maxciv.library.model.exception.LibraryAppException;
-import com.maxciv.library.model.repository.BookRepository;
-import com.maxciv.library.model.repository.UserRepository;
 import com.maxciv.library.service.LibrarianService;
-import com.maxciv.library.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,30 +24,52 @@ import org.springframework.web.bind.annotation.RestController;
 @PreAuthorize("hasAuthority('LIBRARIAN')")
 public class LibrarianController {
 
-    private final UserRepository userRepository;
-    private final BookRepository bookRepository;
-    private final UserService userService;
     private final LibrarianService librarianService;
 
-    public LibrarianController(
-            UserRepository userRepository,
-            BookRepository bookRepository,
-            UserService userService,
-            LibrarianService librarianService
-    ) {
-        this.userRepository = userRepository;
-        this.bookRepository = bookRepository;
-        this.userService = userService;
+    public LibrarianController(LibrarianService librarianService) {
         this.librarianService = librarianService;
     }
 
     @PostMapping("addBook")
-    public Book add(@RequestBody Book book, @RequestParam(name = "ownerId") User owner) throws LibraryAppException {
+    public Book addBook(@RequestBody Book book, @RequestParam(name = "ownerId") User owner) throws LibraryAppException {
         return librarianService.addBook(book, owner);
     }
 
     @PutMapping("orderBook")
-    public BookRecordOrder order(@RequestParam(name = "book") Book book, @RequestParam(name = "supplierId") User supplier) throws LibraryAppException {
+    public BookRecordOrder orderBook(
+            @RequestParam(name = "bookId") Book book,
+            @RequestParam(name = "supplierId") User supplier
+    ) throws LibraryAppException {
         return librarianService.orderBook(book, supplier);
+    }
+
+    @PutMapping("confirmBorrowing")
+    public BookRecordBorrow confirmBorrowing(@RequestParam(name = "borrowId") BookRecordBorrow recordBorrow) throws LibraryAppException {
+        return librarianService.confirmBorrowing(recordBorrow);
+    }
+
+    @PutMapping("declineBorrowing")
+    public BookRecordBorrow declineBorrowing(@RequestParam(name = "borrowId") BookRecordBorrow recordBorrow) throws LibraryAppException {
+        return librarianService.declineBorrowing(recordBorrow);
+    }
+
+    @PutMapping("closeBorrowing")
+    public BookRecordBorrow closeBorrowing(@RequestParam(name = "borrowId") BookRecordBorrow recordBorrow) throws LibraryAppException {
+        return librarianService.closeBorrowing(recordBorrow);
+    }
+
+    @PutMapping("confirmExchange")
+    public BookRecordExchange confirmExchange(@RequestParam(name = "exchangeId") BookRecordExchange recordExchange) throws LibraryAppException {
+        return librarianService.confirmExchange(recordExchange);
+    }
+
+    @PutMapping("declineExchange")
+    public BookRecordExchange declineExchange(@RequestParam(name = "exchangeId") BookRecordExchange recordExchange) throws LibraryAppException {
+        return librarianService.declineExchange(recordExchange);
+    }
+
+    @PutMapping("closeExchange")
+    public BookRecordExchange closeExchange(@RequestParam(name = "exchangeId") BookRecordExchange recordExchange) throws LibraryAppException {
+        return librarianService.closeExchange(recordExchange);
     }
 }

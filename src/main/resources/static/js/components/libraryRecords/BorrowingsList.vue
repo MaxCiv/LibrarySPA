@@ -14,7 +14,8 @@
             </tr>
             </thead>
             <tbody>
-            <borrowings-row v-for="borrowing in borrowings" :key="borrowing.id" :borrowing="borrowing"/>
+            <borrowings-row v-for="borrowing in borrowings" :key="borrowing.id" :borrowing="borrowing"
+                            :updateAll="updateAll" :frontendData="frontendData"/>
             </tbody>
         </table>
     </div>
@@ -25,7 +26,7 @@
     import BorrowingsRow from "./BorrowingsRow.vue";
 
     export default {
-        props: ['borrowings', 'getAllBorrowings'],
+        props: ['borrowings', 'updateAll', 'frontendData'],
         components: {
             BorrowingsRow
         },

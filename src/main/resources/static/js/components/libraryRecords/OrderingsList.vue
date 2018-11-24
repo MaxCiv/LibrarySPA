@@ -14,7 +14,8 @@
             </tr>
             </thead>
             <tbody>
-            <orderings-row v-for="ordering in orderings" :key="ordering.id" :ordering="ordering"/>
+            <orderings-row v-for="ordering in orderings" :key="ordering.id" :ordering="ordering" :updateAll="updateAll"
+                           :frontendData="frontendData"/>
             </tbody>
         </table>
     </div>
@@ -25,7 +26,7 @@
     import OrderingsRow from "./OrderingsRow.vue";
 
     export default {
-        props: ['orderings', 'getAllOrderings'],
+        props: ['orderings', 'updateAll', 'frontendData'],
         components: {
             OrderingsRow,
         },

@@ -9,11 +9,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
 
-                <template v-if="frontendData.currentUser.librarian">
-                    <li class="nav-item" :class="{active : frontendData.currentPage === PagesEnum.books}" @click="goTo(PagesEnum.books)">
-                        <a class="nav-link" href="#">Books</a>
-                    </li>
+                <li class="nav-item" :class="{active : frontendData.currentPage === PagesEnum.books}" @click="goTo(PagesEnum.books)">
+                    <a class="nav-link" href="#">Books</a>
+                </li>
 
+                <template v-if="frontendData.currentUser.librarian">
                     <li class="nav-item" :class="{active : frontendData.currentPage === PagesEnum.borrowings}" @click="goTo(PagesEnum.borrowings)">
                         <a class="nav-link" href="#">Borrowings</a>
                     </li>
@@ -36,6 +36,22 @@
 
                     <li class="nav-item" :class="{active : frontendData.currentPage === PagesEnum.addNewUser}" @click="goTo(PagesEnum.addNewUser)">
                         <a class="nav-link" href="#">Add new user</a>
+                    </li>
+                </template>
+
+                <template v-if="frontendData.currentUser.reader">
+                    <li class="nav-item" :class="{active : frontendData.currentPage === PagesEnum.borrowings}" @click="goTo(PagesEnum.borrowings)">
+                        <a class="nav-link" href="#">My borrowings</a>
+                    </li>
+
+                    <li class="nav-item" :class="{active : frontendData.currentPage === PagesEnum.exchanges}" @click="goTo(PagesEnum.exchanges)">
+                        <a class="nav-link" href="#">Exchanges</a>
+                    </li>
+                </template>
+
+                <template v-if="frontendData.currentUser.supplier">
+                    <li class="nav-item" :class="{active : frontendData.currentPage === PagesEnum.orderings}" @click="goTo(PagesEnum.orderings)">
+                        <a class="nav-link" href="#">My orderings</a>
                     </li>
                 </template>
 
